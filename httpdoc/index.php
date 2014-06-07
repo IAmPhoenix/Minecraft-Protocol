@@ -18,7 +18,7 @@ $Cache = new Cache();
 $MinecraftAPI = new MinecraftAPI( $Cache, $server, 'cache' );
 
 // Set cache time
-$MinecraftAPI->getCache()->setConfig( 'cacheTime', 0 );
+$MinecraftAPI->getCache()->setConfig( 'cacheTime', 30 );
 
 // Initialize the cache folder
 $MinecraftAPI->getCache()->init( );
