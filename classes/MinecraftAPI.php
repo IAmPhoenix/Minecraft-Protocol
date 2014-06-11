@@ -173,7 +173,7 @@ class MinecraftAPI
                     $this->mc_playersOnline = $d[4];
                     $this->mc_playersLimit = $d[5];
                     $this->mc_motd = $d[3];
-                    return ture;
+                    return true;
                 }
             }
             return false;
