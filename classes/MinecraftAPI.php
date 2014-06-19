@@ -246,6 +246,7 @@ class MinecraftAPI
     */
     private function stripMotdColorCodes( $motd )
     {
+        if(strpos($motd, '§') === false) return $motd;
         $split = explode( '§', trim( $motd ) ); $motd = '';
         foreach ($split as $part) {
             if( strlen( $part ) == 0) continue;
