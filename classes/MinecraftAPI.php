@@ -16,6 +16,7 @@ class MinecraftAPI
 
     // Ping Variables
     private $socket;
+    private $timeout = 10;
 
     // Minecraft server stats
     public $mc_status = false;
@@ -44,12 +45,14 @@ class MinecraftAPI
     * @author Alexis Tan
     * @version 1.0
     */
-    public function __construct (Cache $cache, $server = 'localhost:25565', $cacheName = 'cache')
+    public function __construct (Cache $cache, $server = 'localhost:25565', $cacheName = 'cache', $timeout = 10)
     {
         $this->cache = $cache;
 
         $this->server = $server;
         $this->cacheName = $cacheName;
+        
+        $this->timeout = $timeout;
 
         if ( strlen( $this->server ) == 0 ) {
             throw new Exception( 'Invalid server address.' );
@@ -62,6 +65,14 @@ class MinecraftAPI
         }
         
         $this->cache->setConfig( 'path', $this->cache->getConfig( 'path' ) . $this->getServer( ) . '/' );
+    }
+    
+    /*
+    * Get the timeout
+    */
+    public function getTimeout( )
+    {
+        return $this->timeout;
     }
 
     /*
@@ -99,6 +110,7 @@ class MinecraftAPI
 
         // Create socket and connect
         $socket = socket_create( AF_INET, SOCK_STREAM, getprotobyname( 'tcp' ) );
+        socket_set_option( $socket, SOL_SOCKET, SO_RCVTIMEO, array( 'sec' => $this->timeout, 'usec' => $this->timeout * 1000000 ) );
         socket_connect( $socket, $this->server, $this->port );
 
         // Stop the latencty listener
